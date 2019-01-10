@@ -18,9 +18,10 @@ function tryLogin(user, password, res, req) {
           id: user.id, 
           username: user.username, 
           email: user.email
-        }, keys.jwtKey);
+        }, keys.jwtKey, { algorithm: 'RS256'});
         
         req.session.token = token;
+
         res.send({ 
           username: user.username, 
           email: user.email 
@@ -53,7 +54,8 @@ module.exports = app => {
   }); 
 
   app.get("/auth/logout", (req, res) => {
-
+    req.session.token = null;
+    res.redirect('/');
   });
 
   app.post("/auth/validate", (req, res) => {
