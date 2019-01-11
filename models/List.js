@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const listSchema = new Schema({
+  user: String,
   title: String,
   tasks: [{
     checked: false,
