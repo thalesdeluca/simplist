@@ -19,7 +19,7 @@ function tryLogin(user, password, res, req) {
           username: user.username, 
           email: user.email
         }, keys.jwtKey);
-        
+
         req.session.token = token;
 
         res.send({ 
@@ -33,12 +33,12 @@ function tryLogin(user, password, res, req) {
       res.send("Wrong Password");
     });
     
-    
   }
 }
 
 module.exports = app => {
   app.post("/auth/login", (req, res) => {
+
     const { email, password } = req.body;
     
     if(email){
