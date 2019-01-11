@@ -22,6 +22,7 @@ app.use(cookieSession({
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 
 require('./routes/userAuth')(app);
+
 require('./routes/todo')(app);
 
 app.get("/", (req, res) => {

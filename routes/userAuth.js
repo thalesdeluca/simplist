@@ -12,10 +12,6 @@ function tryLogin(user, password, res, req) {
   } else {
 
     bcrypt.compare(password, user.password)
-    .catch((err) => {
-      res.status(401);
-      res.send("Wrong Password");
-    })
     .then((ok) => {
       if(ok){
         let token = jwt.sign({
@@ -23,18 +19,21 @@ function tryLogin(user, password, res, req) {
           username: user.username, 
           email: user.email
         }, keys.jwtKey);
-        
+
         req.session.token = token;
 
         res.send({ 
           username: user.username, 
-          email: user.email,
-          token: token
+
+          email: user.email 
         });
       }
     })
-    
-    
+    .catch((err) => {
+      res.status(401);
+      res.send("Wrong Password");
+    })
+
   }
 }
 
