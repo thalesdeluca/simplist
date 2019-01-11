@@ -12,26 +12,28 @@ function tryLogin(user, password, res, req) {
   } else {
 
     bcrypt.compare(password, user.password)
+    .catch((err) => {
+      res.status(401);
+      res.send("Wrong Password");
+    })
     .then((ok) => {
       if(ok){
         let token = jwt.sign({
           id: user.id, 
           username: user.username, 
           email: user.email
-        }, keys.jwtKey, { algorithm: 'RS256'});
+        }, keys.jwtKey);
         
         req.session.token = token;
 
         res.send({ 
           username: user.username, 
-          email: user.email 
+          email: user.email,
+          token: token
         });
       }
     })
-    .catch((err) => {
-      res.status(401);
-      res.send("Wrong Password");
-    })
+    
     
   }
 }
