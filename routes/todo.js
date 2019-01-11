@@ -50,6 +50,7 @@ module.exports = app => {
       res.status(400);
       res.send("Bad token");
     });
+    res.send(400);
   });
 
   //Get all todo lists
@@ -74,6 +75,7 @@ module.exports = app => {
       res.status(400);
       res.send("Bad token");
     });
+    res.send(400);
   })
 
   app.put("/todo/save", tokenCheck,(req, res) => {
@@ -91,12 +93,14 @@ module.exports = app => {
     .catch(err => {
       res.send(404);
     })
+    res.send(400);
   });
 
   app.delete("/todo/delete", tokenCheck, (req, res) => {
     const list = req.body;
     List.deleteOne({ _id: list._id })
-    .then(res => res.send(200))
+    .then(ok => res.send(200))
     .catch(err => res.send(404));
+    res.send(400);
   });
 }
