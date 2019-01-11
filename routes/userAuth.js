@@ -23,7 +23,7 @@ function tryLogin(user, password, res, req) {
           username: user.username, 
           email: user.email
         }, keys.jwtKey);
-        
+
         req.session.token = token;
 
         res.send({ 
@@ -33,21 +33,21 @@ function tryLogin(user, password, res, req) {
         });
       }
     })
-    
+
+    .catch((err) => {
+      res.status(401);
+      res.send("Wrong Password");
+    });
     
   }
 }
 
 module.exports = app => {
   app.post("/auth/login", (req, res) => {
-    const { username, email, password } = req.body;
-    //if username was informed, try to authenticate using it, otherwise use email
-    if(username){
-      User.findOne({ username: username })
-      .then(user => {
-        tryLogin(user, password, res, req);
-      });
-    } else {
+
+    const { email, password } = req.body;
+    
+    if(email){
       User.findOne({ email: email })
       .then(user => {
         tryLogin(user, password, res, req);
