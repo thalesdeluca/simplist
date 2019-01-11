@@ -18,7 +18,7 @@ function tryLogin(user, password, res, req) {
           id: user.id, 
           username: user.username, 
           email: user.email
-        }, keys.jwtKey, { algorithm: 'RS256'});
+        }, keys.jwtKey);
         
         req.session.token = token;
 
@@ -31,21 +31,17 @@ function tryLogin(user, password, res, req) {
     .catch((err) => {
       res.status(401);
       res.send("Wrong Password");
-    })
+    });
+    
     
   }
 }
 
 module.exports = app => {
   app.post("/auth/login", (req, res) => {
-    const { username, email, password } = req.body;
-    //if username was informed, try to authenticate using it, otherwise use email
-    if(username){
-      User.findOne({ username: username })
-      .then(user => {
-        tryLogin(user, password, res, req);
-      });
-    } else {
+    const { email, password } = req.body;
+    
+    if(email){
       User.findOne({ email: email })
       .then(user => {
         tryLogin(user, password, res, req);
