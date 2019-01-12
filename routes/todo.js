@@ -3,84 +3,61 @@ const keys = require('../config/keys');
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
 const List = mongoose.model('list');
+const Cryptr = require('cryptr');
 
-const tokenCheck = (req, res, next) => {
-  const token = req.session.token || req.get("Authorization");
-  if(!token){
-    res.status(401);
-    res.send("Unauthorized");
-  } else {
-    next();
-  }
-};
+const getUserFromToken = (req) => {
+  //Decrypt saved session from cookie    
+  const safeToken = req.headers.cookie.split("sess=")[1];
+  const hash = new Cryptr(keys.cookieKey);
+  const token = hash.decrypt(safeToken);
+  let user = jwt.verify(token, keys.jwtKey);
 
-const getUserFromToken = async (req, res) => {
-  let token;
-  try {
-    user =  await jwt.verify(req.get("Authorization"), keys.jwtKey);
-  } catch(err){
-    res.status(400);
-    res.send("Bad token provided");
-    throw err;
-  } finally{
-    return user;
-  }
+  return user;
 }
 module.exports = app => {
 
   //middleware requiring token to proceed
-
-  app.post("/todo/create", tokenCheck, (req, res) => {
-    getUserFromToken(req, res)
-    .then(user => {
-      new List({
-        user: user.id,
-        title: "Untitled",
-        modified: Date.now(),
-        tasks: [{
-          checked: false,
-          message: "Your task here"
-        }]
-      }).save()
-      .then(list => {
-        res.send(list);
-      });
+  app.post("/todo/create", (req, res) => {
+    const user = getUserFromToken(req, res);
+    new List({
+      user: user.id,
+      title: "Untitled",
+      modified: Date.now(),
+      tasks: [{
+        checked: false,
+        message: "Your task here"
+      }]
+    }).save()
+    .then(list => {
+      res.send(list);
     })
     .catch(err => {
       res.status(400);
       res.send("Bad token");
     });
-    res.send(400);
   });
 
   //Get all todo lists
-  app.get("/todo", tokenCheck, (req, res) => {
-    getUserFromToken(req, res)
-    .then(user => {
-      List.find({user: user.id})
-      .then(lists => {
-        let safeLists = [];
+  app.get("/todo", (req, res) => {
+    const user = getUserFromToken(req);
+    List.find({ user: user.id })
+    .then(lists => {
+      const safeLists = [];
 
-        lists.forEach(list => {
-          safeLists.push({
-            _id: list._id,
-            title: list.title,
-            tasks: list.tasks
-          })
+      lists.forEach(list => {
+        safeLists.push({
+          id: list.id,
+          title: list.title,
+          tasks: list.tasks
         });
-        res.send(safeLists);
       })
-    })
-    .catch(err => {
-      res.status(400);
-      res.send("Bad token");
-    });
-    res.send(400);
+      res.send(safeLists);
+    }) 
   })
 
-  app.put("/todo/save", tokenCheck,(req, res) => {
+  app.put("/todo/save", (req, res) => {
     const list  = req.body;
-    List.findById(list._id)
+    List.findById(list.id)
     .then(target => {
       target.set({
         title: list.title,
@@ -90,17 +67,14 @@ module.exports = app => {
       .then(ok => res.send(200))
       .catch(err => res.send(500));
     })
-    .catch(err => {
-      res.send(404);
-    })
-    res.send(400);
+
   });
 
-  app.delete("/todo/delete", tokenCheck, (req, res) => {
+  app.post("/todo/delete", (req, res) => {
     const list = req.body;
-    List.deleteOne({ _id: list._id })
+    console.log(list);
+    List.deleteOne({ _id: list.id })
     .then(ok => res.send(200))
     .catch(err => res.send(404));
-    res.send(400);
   });
 }

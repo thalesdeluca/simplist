@@ -12,10 +12,10 @@
   "dependencies": {
     "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
-    "cookie-session": "^2.0.0-beta.3",
+    "cryptr": "^4.0.2",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "jsonwebtoken": "^8.4.0",
-    "keygrip": "^1.0.3",
     "mongoose": "^5.4.3"
   },
   "devDependencies": {

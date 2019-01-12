@@ -1,8 +1,25 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import axios from 'axios';
 class App extends Component {
+  componentDidMount(){
+    axios.post("/auth/login", {
+      email: "delucathales@gmail.com",
+      password: "teste123"
+    }).then(ok => {
+      axios.get("/todo/")
+      .then(ok => {
+        axios.post("/todo/delete", ok.data[1])
+        .then(ok => axios.get("/todo/").then(ok => console.log(ok)))
+        .catch(err => console.log(err));
+      
+    });
+    //axios.get("/auth/logout")
+  });
+    
+  
+}
   render() {
     return (
       <div className="App">

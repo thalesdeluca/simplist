@@ -3,6 +3,7 @@ const User = moongoose.model('user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
+const Cryptr = require('cryptr');
 
 //Helper function that generates token if password is right
 function tryLogin(user, password, res, req) {
@@ -12,6 +13,10 @@ function tryLogin(user, password, res, req) {
   } else {
 
     bcrypt.compare(password, user.password)
+    .catch((err) => {
+      res.status(401);
+      res.send("Wrong Password");
+    })
     .then((ok) => {
       if(ok){
         let token = jwt.sign({
@@ -20,19 +25,24 @@ function tryLogin(user, password, res, req) {
           email: user.email
         }, keys.jwtKey);
 
-        req.session.token = token;
+        //Encrypt seesion and save in cookie
+        const hash = new Cryptr(keys.cookieKey);
+        const safeToken = hash.encrypt(token);
+
+        res.cookie("sess", safeToken, {
+          httpOnly: true,
+          resave: true,
+          saveUninitialized: false,
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+        });
 
         res.send({ 
           username: user.username, 
-
           email: user.email 
         });
       }
     })
-    .catch((err) => {
-      res.status(401);
-      res.send("Wrong Password");
-    })
+    
 
   }
 }
@@ -55,8 +65,9 @@ module.exports = app => {
   }); 
 
   app.get("/auth/logout", (req, res) => {
-    req.session.token = null;
-    res.redirect('/');
+    res.clearCookie('sess', {path: '/'});
+    res.clearCookie('session', { path: '/'});
+    res.send(200);
   });
 
   app.post("/auth/validate", (req, res) => {
