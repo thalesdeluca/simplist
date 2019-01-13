@@ -19,5 +19,5 @@ require('./routes/userAuth')(app);
 require('./routes/todo')(app);
 
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT);
 
