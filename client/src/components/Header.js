@@ -1,31 +1,40 @@
 import React from 'react';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import '../css/Header.css'
 
 class Header extends React.Component {
-  teste = () =>{
-    this.props.fetchUser();
+  logIn = () => {
+    
+    if(this.props.auth){
+      this.props.logoutUser();
+    } else {
+      this.props.loginUser("delucathales@gmail.com", "teste123");
+    }
+    
   }
 
   renderContent() {
     if(this.props.auth){
       return(
-        <div onClick = { this.teste }>
-          Header { this.props.auth.data.name }
-        </div>
+        <Link to="/login" id="user" className="link">
+        { this.props.auth.name }
+        </Link>
       );
     } else {
       return(
-        <div onClick = { this.teste }>
-          Header
-        </div>
+        <Link to="/login" id="user" className="link">
+            Login
+        </Link>
       );
     }
   }
   
   render() {
-    return(
-      <div>
+    return( 
+      <div className="nav">
+        <Link to="/" className="link">SimpList</Link>
         { this.renderContent() }
       </div>
       

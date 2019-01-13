@@ -5,6 +5,17 @@ const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
 const Cryptr = require('cryptr');
 
+const tokenCheck = (req, res, next) => {
+  if(req.headers.cookie){
+    if(req.headers.cookie.includes("sess")){
+      next();
+    } else {
+      res.sendStatus(401);
+    }
+  } else {
+    res.sendStatus(401);
+  }
+}
 //Helper function that generates token if password is right
 function tryLogin(user, password, res, req) {
   if(!user){
@@ -37,7 +48,7 @@ function tryLogin(user, password, res, req) {
         });
 
         res.send({ 
-          username: user.username, 
+          name: user.username, 
           email: user.email 
         });
       }
@@ -49,14 +60,8 @@ function tryLogin(user, password, res, req) {
 
 module.exports = app => {
   app.post("/auth/login", (req, res) => {
-    const { username, email, password } = req.body;
-    //if username was informed, try to authenticate using it, otherwise use email
-    if(username){
-      User.findOne({ username: username })
-      .then(user => {
-        tryLogin(user, password, res, req);
-      });
-    } else {
+    const { email, password } = req.body;
+    if(email){
       User.findOne({ email: email })
       .then(user => {
         tryLogin(user, password, res, req);
@@ -70,23 +75,17 @@ module.exports = app => {
     res.send(200);
   });
 
-  app.get("/auth/user", (req, res) => {
-    if(req.headers.cookie.includes("sess")){
+  app.get("/auth/user", tokenCheck, (req, res) => {
+    const safeToken = req.headers.cookie.split("sess=")[1];
 
-      const safeToken = req.headers.cookie.split("sess=")[1];
+    const hash = new Cryptr(keys.cookieKey);
+    const token = hash.decrypt(safeToken);
+    let user = jwt.verify(token, keys.jwtKey);
 
-      const hash = new Cryptr(keys.cookieKey);
-      const token = hash.decrypt(safeToken);
-      let user = jwt.verify(token, keys.jwtKey);
-
-      res.send({
-        email: user.email,
-        name: user.username
-      });
-
-    } else {
-      res.sendStatus(404);
-    }
+    res.send({
+      email: user.email,
+      name: user.username
+    });
   })
 
   app.post("/auth/validate", (req, res) => {

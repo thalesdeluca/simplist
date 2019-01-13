@@ -7,25 +7,25 @@ import {
 import axios from 'axios';
 
 export const fetchLists = () => async dispatch => {
-  const res = await axios.get("/todo");
-
-  dispatch({ type: FETCH_LISTS, payload: res });
+  const res = await axios.get("/todo/");
+  
+  dispatch({ type: FETCH_LISTS, payload: res.data });
 }
 
 export const saveList = (list) => async dispatch => {
   const res = await axios.post("/todo/save", list);
 
-  dispatch({ type: FETCH_LISTS, payload: res });
+  dispatch({ type: SAVE_LIST, payload: res.data });
 }
 
-export const fetchLists = () => async dispatch => {
+export const createList = () => async dispatch => {
   const res = await axios.put("/todo/create");
 
-  dispatch({ type: FETCH_LISTS, payload: res });
+  dispatch({ type: CREATE_LIST, payload: res.data });
 }
 
-export const fetchLists = (list) => async dispatch => {
+export const deleteLists = (list) => async dispatch => {
   const res = await axios.psot("/todo/delete", list);
 
-  dispatch({ type: FETCH_LISTS, payload: res });
+  dispatch({ type: DELETE_LIST, payload: res.data });
 }

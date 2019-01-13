@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #212121;
+  color: #fff;
+  font-family: 'Londrina Solid', sans-serif;
+}
+
+.button {
+  padding: 15px;
+  width: 20%;
+  background: hsl(0, 75%, 52%);
+  font-size: 20px;
+  letter-spacing: 2px;
+  border-radius: 40px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  font-family: 'Londrina Solid', sans-serif;
+}
+
+.button:hover {
+  background: hsl(0, 75%, 42%);
+  border: 2px solid #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 640px){
+  .button{
+    width: 80%;
+  }
+}

@@ -8,18 +8,18 @@ import {
 export const fetchUser = () => async dispatch =>  {
   const res = await axios.get("/auth/user");
   
-  dispatch({ type: FETCH_USER, payload: res });
+  dispatch({ type: FETCH_USER, payload: res.data });
 }
 export const loginUser = (email, pass) => async dispatch =>  {
+
   const res = await axios.post("/auth/login", {
     email: email,
     password: pass
   });
-
-  dispatch({ type:LOGIN_USER, payload: res });
+  dispatch({ type:LOGIN_USER, payload: res.data });
 }
 export const logoutUser = () => async dispatch =>  {
   const res = await axios.get("/auth/logout");
 
-  dispatch({ type:LOGOUT_USER, payload: res });
+  dispatch({ type:LOGOUT_USER, payload: null });
 }
