@@ -1,22 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import * as actions from '../actions';
-import { connect } from 'react-redux';
+
+import Header from './Header';
+import Dashboard from '../views/Dashboard';
 
 class App extends React.Component {
-  componentDidMount() {
-    this.props.fetchUser()
-    .then(user => {
-      console.log(user);
-    })
-    .catch(err => console.log(err));
-  }
   render() {
     return(
       <div>
         <BrowserRouter>
           <div>
-            <Route exact path="/" component={null}/>
+            <Header/>
+            <Route exact path="/" component={Dashboard}/>
           </div>  
         </BrowserRouter>
       </div>
@@ -24,4 +19,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(null, actions)(App);
+export default App;

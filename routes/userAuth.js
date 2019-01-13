@@ -71,14 +71,19 @@ module.exports = app => {
   });
 
   app.get("/auth/user", (req, res) => {
-    console.log(req.headers.cookie)
     if(req.headers.cookie.includes("sess")){
-    const safeToken = req.headers.cookie.split("sess=")[1];
-    const hash = new Cryptr(keys.cookieKey);
-    const token = hash.decrypt(safeToken);
-    let user = jwt.verify(token, keys.jwtKey);
-  
-    res.send(user);
+
+      const safeToken = req.headers.cookie.split("sess=")[1];
+
+      const hash = new Cryptr(keys.cookieKey);
+      const token = hash.decrypt(safeToken);
+      let user = jwt.verify(token, keys.jwtKey);
+
+      res.send({
+        email: user.email,
+        name: user.username
+      });
+
     } else {
       res.sendStatus(404);
     }
