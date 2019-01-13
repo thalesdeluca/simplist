@@ -4,6 +4,7 @@
   "description": "A simple todo app using ReactJS, NodeJS, Express e JWT.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"nodemon index.js\" \"npm start --prefix client\""
   },
