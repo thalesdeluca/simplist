@@ -3,7 +3,6 @@ import * as actions from '../actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../css/Header.css'
-import axios from 'axios';
 
 class Header extends React.Component {
   showMenu = () => {

@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import Card from '../components/Card';
+import '../css/Dashboard.css';
 
 class Dashboard extends React.Component {
   componentDidMount() {
@@ -12,13 +14,22 @@ class Dashboard extends React.Component {
     if(this.props.list){
 
     } else {
+
     }
 
   }
   render(){
+    const list = {
+      title: "Title",
+      tasks: [{
+        _id: "165",
+        checked: true,
+        message:"Seila"
+      }]
+    }
     return(
-      <div>
-        {this.renderContent()}
+      <div className="dashboard">
+        <Card list={ list }/>
       </div>
     );
   }

@@ -1,0 +1,8 @@
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+}
