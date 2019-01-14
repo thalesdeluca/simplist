@@ -6,6 +6,7 @@ import Dashboard from '../views/Dashboard';
 import Login from '../views/Login';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
+import Signup from '../views/Signup';
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,6 +20,7 @@ class App extends React.Component {
             <Header/>
             <Route exact path="/" component={Dashboard}/>
             <Route path="/login" component={Login}/>
+            <Route path="/signup" component={Signup}/>
           </div>  
         </BrowserRouter>
       </div>

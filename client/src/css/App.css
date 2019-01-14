@@ -5,7 +5,7 @@
 }
 
 body {
-  background: #212121;
+  background: #131313;
   color: #fff;
   font-family: 'Londrina Solid', sans-serif;
 }
@@ -19,6 +19,7 @@ body {
   border-radius: 40px;
   border: 2px solid transparent;
   transition: all 0.3s ease;
+  box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.4);
   font-family: 'Londrina Solid', sans-serif;
 }
 
@@ -27,6 +28,10 @@ body {
   border: 2px solid #fff;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+.button:active {
+  box-shadow: none;
 }
 
 @media (max-width: 640px){

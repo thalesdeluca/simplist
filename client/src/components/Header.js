@@ -3,24 +3,38 @@ import * as actions from '../actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../css/Header.css'
+import axios from 'axios';
 
 class Header extends React.Component {
-  logIn = () => {
-    
-    if(this.props.auth){
-      this.props.logoutUser();
-    } else {
-      this.props.loginUser("delucathales@gmail.com", "teste123");
-    }
-    
+  showMenu = () => {
+    const menu = document.getElementsByClassName("menu")[0];
+    menu.style.display = "initial";
   }
 
+  closeMenu = () => {
+    const menu = document.getElementsByClassName("menu")[0];
+    menu.style.display = "none";
+  }
+
+  logOut = () => {
+    this.props.logoutUser();
+  }
+  
   renderContent() {
     if(this.props.auth){
       return(
-        <Link to="/login" id="user" className="link">
-        { this.props.auth.name }
-        </Link>
+        <div id="user" onMouseOver= { this.showMenu } 
+        onMouseOut = {
+          this.closeMenu
+        }
+        className="link">
+          { this.props.auth.name }
+          <div className="menu">
+            <ul>
+              <li onClick={ this.logOut }>Logout</li>
+            </ul>
+          </div>
+        </div>
       );
     } else {
       return(

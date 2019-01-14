@@ -29,6 +29,9 @@ class Login extends React.Component{
           .then(ok => {
             window.location.href = "/";
           });
+        } else {
+          alert("No password was informed");
+          pass.focus();
         }
       }
     }
@@ -40,7 +43,7 @@ class Login extends React.Component{
       <div className="container">
 
         <h4>Log in or Sign up to save your lists </h4>
-        
+
         <Link to="/" className="closeContainer">
           <Close className="close"/>
         </Link>
@@ -52,7 +55,7 @@ class Login extends React.Component{
 
         <a href="#">Forgot password?</a>
 
-        <div class="button" onClick={this.logIn}>
+        <div className="button" onClick={this.logIn}>
           LOGIN
         </div>
 
