@@ -5,6 +5,17 @@ const User = mongoose.model('user');
 const List = mongoose.model('list');
 const Cryptr = require('cryptr');
 
+const tokenCheck = (req, res, next) => {
+  if(req.headers.cookie){
+    if(req.headers.cookie.includes("sess")){
+      next();
+    } else {
+      res.sendStatus(401);
+    }
+  } else {
+    res.sendStatus(401);
+  }
+}
 const getUserFromToken = (req) => {
   //Decrypt saved session from cookie    
   const safeToken = req.headers.cookie.split("sess=")[1];
@@ -17,8 +28,8 @@ const getUserFromToken = (req) => {
 module.exports = app => {
 
   //middleware requiring token to proceed
-  app.post("/todo/create", (req, res) => {
-    const user = getUserFromToken(req, res);
+  app.post("/todo/create", tokenCheck, (req, res) => {
+    const user = getUserFromToken(req);
     new List({
       user: user.id,
       title: "Untitled",
@@ -38,7 +49,7 @@ module.exports = app => {
   });
 
   //Get all todo lists
-  app.get("/todo", (req, res) => {
+  app.get("/todo", tokenCheck, (req, res) => {
     const user = getUserFromToken(req);
     List.find({ user: user.id })
     .then(lists => {
@@ -55,24 +66,34 @@ module.exports = app => {
     }) 
   })
 
-  app.put("/todo/save", (req, res) => {
-    const list  = req.body;
+  app.put("/todo/save", tokenCheck,(req, res) => {
+    const list = req.body;
     List.findById(list.id)
     .then(target => {
       target.set({
-        title: list.title,
-        tasks: list.tasks
+        title: list.title
       });
+
+      const tasks = list.tasks.map(task => {
+          return {
+            checked: task.checked,
+            message: task.message
+          }
+        }
+      );
+
+      target.set({
+        tasks: tasks
+      })
+
       target.save()
       .then(ok => res.send(200))
-      .catch(err => res.send(500));
     })
 
   });
 
-  app.post("/todo/delete", (req, res) => {
+  app.post("/todo/delete", tokenCheck,(req, res) => {
     const list = req.body;
-    console.log(list);
     List.deleteOne({ _id: list.id })
     .then(ok => res.send(200))
     .catch(err => res.send(404));
