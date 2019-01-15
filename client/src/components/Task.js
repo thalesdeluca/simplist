@@ -17,7 +17,7 @@ class Task extends React.Component {
   
 
   handleCheck = (e) => {
-    this.setState({ checkInput: e.target.checked },() => {
+    this.setState({ checkInput: e.target.checked }, () => {
       let task = {
         _id: this.props.task._id,
         checked: this.state.checkInput,

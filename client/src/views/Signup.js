@@ -3,7 +3,7 @@ import * as actions from '../actions';
 import { connect } from 'react-redux';
 import '../css/Login.css';
 import { Link } from 'react-router-dom';
-import close, {
+import {
   ReactComponent as Close
 } from '../close.svg';
 import axios from 'axios';

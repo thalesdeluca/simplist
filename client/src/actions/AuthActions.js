@@ -19,7 +19,7 @@ export const loginUser = (email, pass) => async dispatch =>  {
   dispatch({ type:LOGIN_USER, payload: res.data });
 }
 export const logoutUser = () => async dispatch =>  {
-  const res = await axios.get("/auth/logout");
+  await axios.get("/auth/logout");
 
   dispatch({ type:LOGOUT_USER, payload: null });
 }

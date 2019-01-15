@@ -9,6 +9,7 @@ import isEqual from 'lodash/isEqual'
 class Card extends React.Component {
   constructor(props){
     super(props);
+
     let tasks = this.props.list.tasks.map(attr => {
       return({ ...attr });
     });
@@ -50,11 +51,8 @@ class Card extends React.Component {
   }
   deleteTask = (taskId, dom) => {
     const index = this.state.tasks.findIndex(attr => attr._id === taskId);
-    const element = ReactDOM.findDOMNode(this)
-      .getElementsByClassName("task-list")[0];
     dom.remove();
     this.state.tasks.splice(index, 1);
-    console.log(this.state);
     this.checkChanges();
   }
 
@@ -73,7 +71,7 @@ class Card extends React.Component {
   addTasks = () => {
     this.setState({
       tasks: [...this.state.tasks, {
-        _id: this.state.length, 
+        _id: this.state.tasks.length, 
         checked: false,
         message: ""
       }]
@@ -83,16 +81,24 @@ class Card extends React.Component {
   saveChanges = () => {
     if(this.state.saveBtn){
       if(!this.state.saveBtn.classList.contains("disabled")){
-        let list = this.props.list;
-        list.title = this.state.titleInput;
-        list.tasks = this.state.tasks;
-        
-        this.props.saveList(list)
-        .then(ok => this.props.fetchLists())
-        .catch(err => alert("Couldn't save list"));
+        if(this.props.auth){
+          let list = this.props.list;
+          list.title = this.state.titleInput;
+          list.tasks = this.state.tasks;
+          
+          this.props.saveList(list)
+          .then(ok => this.props.fetchLists())
+          .catch(err => alert("Couldn't save list"));
+
+        } else {
+          window.localStorage.setItem("title", this.state.titleInput);
+          window.localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+          this.state.saveBtn.classList.add("disabled");
+        }
       }
     }
   }
+
   checkChanges = () => {
     if(this.state.saveBtn){
 
@@ -106,7 +112,6 @@ class Card extends React.Component {
   }
   taskChanges = (task) => {
     if(task) {
-      console.log(this.state.tasks);
       const taskChanged = this.state.tasks.findIndex(attr => attr._id === task._id);
       this.state.tasks[taskChanged] = task;
       this.checkChanges();
@@ -114,7 +119,6 @@ class Card extends React.Component {
   }
 
   render(){
-    const { title, tasks } = this.props.list;
     this.checkChanges();
     return(
       <div className="card">
@@ -140,4 +144,8 @@ class Card extends React.Component {
   }
 }
 
-export default connect(null, actions)(Card);
+function mapStateToProps({ auth }){
+  return({ auth });
+}
+
+export default connect(mapStateToProps, actions)(Card);

@@ -13,7 +13,7 @@ class Dashboard extends React.Component {
   renderContent() {
     if(this.props.auth){
       if(this.props.list){
-        if(this.props.list.constructor.name == "Array"){
+        if(this.props.list.constructor.name === "Array"){
           const lists = this.props.list.map(list => 
             <Card key={ list.id } list={ list }/>
           );
@@ -21,8 +21,11 @@ class Dashboard extends React.Component {
         }
       }
     } else {
-      //window.localStorage = 
-      return <Card list={ { title: "Title", tasks:[] } }/>
+      let list = {
+        title: window.localStorage.getItem("title") || "Untitled",
+        tasks: JSON.parse(window.localStorage.getItem("tasks")) || []
+      }
+      return <Card list={ list }/>
     }
 
   }
