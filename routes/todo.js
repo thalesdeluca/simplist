@@ -28,8 +28,8 @@ const getUserFromToken = (req) => {
 module.exports = app => {
 
   //middleware requiring token to proceed
-  app.post("/todo/create", tokenCheck,(req, res) => {
-    const user = getUserFromToken(req, res);
+  app.post("/todo/create", tokenCheck, (req, res) => {
+    const user = getUserFromToken(req);
     new List({
       user: user.id,
       title: "Untitled",
@@ -67,23 +67,33 @@ module.exports = app => {
   })
 
   app.put("/todo/save", tokenCheck,(req, res) => {
-    const list  = req.body;
+    const list = req.body;
     List.findById(list.id)
     .then(target => {
       target.set({
-        title: list.title,
-        tasks: list.tasks
+        title: list.title
       });
+
+      const tasks = list.tasks.map(task => {
+          return {
+            checked: task.checked,
+            message: task.message
+          }
+        }
+      );
+
+      target.set({
+        tasks: tasks
+      })
+
       target.save()
       .then(ok => res.send(200))
-      .catch(err => res.send(500));
     })
 
   });
 
   app.post("/todo/delete", tokenCheck,(req, res) => {
     const list = req.body;
-    console.log(list);
     List.deleteOne({ _id: list.id })
     .then(ok => res.send(200))
     .catch(err => res.send(404));

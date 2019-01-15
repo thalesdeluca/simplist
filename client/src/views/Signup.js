@@ -60,7 +60,7 @@ class Signup extends React.Component{
   render(){
     return(
       <div className="container">
-        
+        <h2>Sign Up</h2>
         <Link to="/" className="closeContainer">
           <Close className="close"/>
         </Link>

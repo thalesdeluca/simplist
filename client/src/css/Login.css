@@ -12,7 +12,7 @@
   cursor: default;
   padding: 30px;
 }
-.container h4 {
+.container h4, h2 {
   font-weight: 300;
   position: absolute;
   top: 40px;
@@ -65,6 +65,7 @@
   border: 2px solid  hsl(0, 66%, 44%);
   transition: all 0.3s ease;
 }
+
 @media (max-width: 640px){
   .container input{
     width: 70vw;

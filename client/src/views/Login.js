@@ -3,9 +3,11 @@ import * as actions from '../actions';
 import { connect } from 'react-redux';
 import '../css/Login.css';
 import { Link } from 'react-router-dom';
-import close, {
+
+import {
   ReactComponent as Close
 } from '../close.svg';
+
 class Login extends React.Component{
   componentDidMount(){
     const container = document.getElementsByClassName("container")[0];
@@ -28,6 +30,10 @@ class Login extends React.Component{
           this.props.loginUser(emailValue, pass.value)
           .then(ok => {
             window.location.href = "/";
+          })
+          .catch(err => {
+            alert("Incorrect password or email");
+            pass.focus();
           });
         } else {
           alert("No password was informed");

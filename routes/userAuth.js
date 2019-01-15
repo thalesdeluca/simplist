@@ -24,10 +24,6 @@ function tryLogin(user, password, res, req) {
   } else {
 
     bcrypt.compare(password, user.password)
-    .catch((err) => {
-      res.status(401);
-      res.send("Wrong Password");
-    })
     .then((ok) => {
       if(ok){
         let token = jwt.sign({
@@ -53,6 +49,10 @@ function tryLogin(user, password, res, req) {
         });
       }
     })
+    .catch((err) => {
+      res.status(401);
+      res.send("Wrong Password");
+    })
     
 
   }
@@ -65,6 +65,9 @@ module.exports = app => {
       User.findOne({ email: email })
       .then(user => {
         tryLogin(user, password, res, req);
+      })
+      .catch(err => {
+        res.sendStatus(404);
       })
     }
   }); 

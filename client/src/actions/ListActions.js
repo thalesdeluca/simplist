@@ -13,19 +13,19 @@ export const fetchLists = () => async dispatch => {
 }
 
 export const saveList = (list) => async dispatch => {
-  const res = await axios.post("/todo/save", list);
+  const res = await axios.put("/todo/save", list);
 
   dispatch({ type: SAVE_LIST, payload: res.data });
 }
 
 export const createList = () => async dispatch => {
-  const res = await axios.put("/todo/create");
+  const res = await axios.post("/todo/create");
 
   dispatch({ type: CREATE_LIST, payload: res.data });
 }
 
-export const deleteLists = (list) => async dispatch => {
-  const res = await axios.psot("/todo/delete", list);
+export const deleteList = (list) => async dispatch => {
+  const res = await axios.post("/todo/delete", list);
 
   dispatch({ type: DELETE_LIST, payload: res.data });
 }

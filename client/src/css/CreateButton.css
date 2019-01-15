@@ -1,3 +1,23 @@
 .new-list {
-  
+  background: transparent;
+  color: #333;
+  border: 5px dashed #333;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none;
+  text-align: center;
+  overflow: unset;
+  font-size: 20px;
+}
+.redirect{
+  font-size: 28px;
+  color: rgb(64, 64, 218);
+}
+.new {
+  height: 50%;
+  width: 50%;
+}
+
+.clickable{
+  cursor: pointer;
 }

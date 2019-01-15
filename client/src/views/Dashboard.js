@@ -3,33 +3,34 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Card from '../components/Card';
 import '../css/Dashboard.css';
+import CreateButton from '../components/CreateButton';
 
 class Dashboard extends React.Component {
   componentDidMount() {
     this.props.fetchLists()
     .catch(err => console.log("not logged in"));
-    
   }
   renderContent() {
-    if(this.props.list){
-
+    if(this.props.auth){
+      if(this.props.list){
+        if(this.props.list.constructor.name == "Array"){
+          const lists = this.props.list.map(list => 
+            <Card key={ list.id } list={ list }/>
+          );
+          return lists;
+        }
+      }
     } else {
-
+      //window.localStorage = 
+      return <Card list={ { title: "Title", tasks:[] } }/>
     }
 
   }
   render(){
-    const list = {
-      title: "Title",
-      tasks: [{
-        _id: "165",
-        checked: true,
-        message:"Seila"
-      }]
-    }
     return(
       <div className="dashboard">
-        <Card list={ list }/>
+        { this.renderContent() }
+        <CreateButton/>
       </div>
     );
   }
