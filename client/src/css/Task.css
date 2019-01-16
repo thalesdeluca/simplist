@@ -1,0 +1,59 @@
+.task {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  height: fit-content;
+  margin: 5px 0;
+  align-items: center;
+}
+.task input[type="text"]{
+  width: 75%;
+  height: auto;
+  border-radius: 10px;
+  padding: 5px;
+  margin-left: 15px;
+  background: whitesmoke;
+  border: 1px solid rgb(240, 203, 203); 
+  font-size: 18px;
+  font-family: "Roboto Condensed", serif;
+}
+
+.task input[type="checkbox"]{
+  cursor: pointer;
+}
+
+.task input[type="checkbox"]:after{
+  outline: none;
+  content: '';
+  display: inline-block;
+  margin-top: -7px;
+  height: 25px;
+  width: 25px;
+  border: 1px solid rgb(192,192,192);
+  border-radius: 5px;
+  outline: none;
+  background: whitesmoke;
+}
+
+input[type='checkbox']:checked:after {
+  content: "\2713";
+  text-align: center;
+  font-size: 24px;
+  height: 25px;
+  border-radius: 5px;
+  width: 25px;
+  color: #fff;
+  background: hsl(0, 66%, 44%);
+}
+input[type='checkbox']:checked + input[type="text"] {
+  content:""; 
+  text-decoration: line-through;
+  color: #333;
+  background:#ccc;
+}
+
+.delete-task {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}

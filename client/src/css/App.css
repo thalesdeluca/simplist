@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #131313;
+  color: #fff;
+  font-family: 'Londrina Solid', sans-serif;
+}
+
+.button {
+  padding: 15px;
+  width: 20%;
+  background: hsl(0, 75%, 52%);
+  font-size: 20px;
+  letter-spacing: 2px;
+  border-radius: 40px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.4);
+  font-family: 'Londrina Solid', sans-serif;
+}
+
+.button:hover {
+  background: hsl(0, 75%, 42%);
+  border: 2px solid #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:active {
+  box-shadow: none;
+}
+
+@media (max-width: 640px){
+  .button{
+    width: 80%;
+  }
+}

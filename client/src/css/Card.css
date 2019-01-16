@@ -1,0 +1,73 @@
+.card {
+  background: whitesmoke;
+  height: 500px;
+  width: 350px;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  float: left;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px 10px;
+  box-shadow: 4px 6px 8px rgba(0,0,0, 0.4);
+}
+.card-header {
+  justify-self: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.card-header input {
+  padding: 5px;
+  width: 200px;
+  margin-left: 8px;
+  border: 1px solid rgba(0,0,0, 0.1);
+  text-align: center;
+  border-radius: 5px;
+  font-size: 20px;
+  outline: none;
+  font-family: 'Londrina Solid', sans-serif;
+}
+
+.save {
+  background: hsl(0, 66%, 44%);
+  text-align: center;
+  height:100%;
+  padding: 5px 10px;
+  border-radius: 10px;
+  box-shadow: 2px 4px 0px hsl(0, 67%, 30%);  
+  cursor: pointer;
+  transition: all 0.3 ease;
+}
+.save:active {
+  margin-left: 2px;
+  margin-top: 4px;
+  box-shadow: none;
+  background: hsl(0, 67%, 30%);
+  transition: all 0.3 ease;
+}
+
+.add {
+  color: hsl(0, 67%, 30%);
+  text-align: center;
+  height: 100%;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.disabled {
+  filter: opacity(80%) grayscale(100%);
+}
+
+.task-list {
+  width: 100%;
+  margin: 10px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.delete {
+  color: #111;
+  cursor: pointer;
+}
