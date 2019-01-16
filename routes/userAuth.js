@@ -117,7 +117,6 @@ module.exports = app => {
 
   app.post("/auth/signup", (req, res) => {
     const { username, email, password } = req.body;
-    console.log(req.body.email);
     User.findOne({email: email})
     .then(user => {
       if(!user){

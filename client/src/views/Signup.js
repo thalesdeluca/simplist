@@ -41,7 +41,7 @@ class Signup extends React.Component{
                 password: passValue
               })
               .then(ok => {
-                window.location.href = "/";
+                window.location.replace("/")
               })
               
             })
