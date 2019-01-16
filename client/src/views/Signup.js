@@ -36,10 +36,8 @@ class Signup extends React.Component{
               password: passValue
             })
             .then(signedup => {
-              this.props.loginUser({
-                email: emailValue,
-                password: passValue
-              })
+              
+              this.props.loginUser(emailValue, passValue)
               .then(ok => {
                 window.location.replace("/")
               })
