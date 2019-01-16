@@ -24,8 +24,16 @@ cd client
 npm i
 ```
 
-Now return to the server folder and run:
+Now return to the server folder, go to `simplist/config` folder and create a file ``dev.js`` with the following:
+```
+module.exports = {
+  mongoURI: //The mongo db connect url,
+  cookieKey: //some random string/key,
+  jwtKey: //some random string/key
+}
+```
 
+Finally, on the server folder run:
 ```
 cd ..
 npm run dev
