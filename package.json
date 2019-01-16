@@ -19,10 +19,10 @@
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.3",
-    
-  },
-  "devDependencies": {
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.9"
+  },
+  "devDependencies": {
+    
   }
 }
