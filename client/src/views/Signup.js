@@ -14,6 +14,21 @@ class Signup extends React.Component{
     container.style.animation= "appear 1s ease";
   }
 
+  checkEmail = async (email) => {
+    let res;
+    try{
+       res = await axios.post('/auth/validate', {
+        email: email
+      });
+    } catch (err){
+      window.alert("Email already registered!");
+      res = null;
+    }
+    finally {
+      return res;
+    }
+  }
+
   signUp = () => {
     const email = document.getElementById("email");
     const pass = document.getElementById("password");
@@ -29,22 +44,27 @@ class Signup extends React.Component{
           alert("Email is invalid");
           email.focus();
         } else {
-          if(passValue){
-            axios.post("/auth/signup", {
-              username: name.value,
-              email: emailValue,
-              password: passValue
-            })
-            .then(signedup => {
-              
-              this.props.loginUser(emailValue, passValue)
-              .then(ok => {
-                window.location.replace("/")
+          //See if email already registeredç
+          let emailOk = this.checkEmail(emailValue);
+
+          if(emailOk){
+            if(passValue){
+              axios.post("/auth/signup", {
+                username: name.value,
+                email: emailValue,
+                password: passValue
               })
-              
-            })
-          } else {
-            alert("No password was informed");
+              .then(signedup => {
+                
+                this.props.loginUser(emailValue, passValue)
+                .then(ok => {
+                  window.location.replace("/")
+                })
+                
+              })
+            } else {
+              alert("No password was informed");
+            }
           }
         }
       }
